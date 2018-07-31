@@ -9,8 +9,8 @@ $(function () {
 			{ label: '开票时间', name: 'billTime', index: 'bill_time', width: 80 },
 			{ label: '校验码', name: 'checkCode', index: 'check_code', width: 80 },
 			{ label: '开具金额', name: 'invoiceAmount', index: 'invoice_amount', width: 80 },
-			/*{ label: '授权码', name: 'token', index: 'token', width: 80 },
-			{ label: '状态(0:删除 1:正常)', name: 'state', index: 'state', width: 80 },*/
+			{ label: '授权码', name: 'token', index: 'token', width: 80 },
+			{ label: '状态', name: 'state', index: 'state', width: 80 },
 			{ label: '创建人', name: 'crtUsr', index: 'crt_usr', width: 80 }, 			
 			{ label: '创建时间', name: 'crtDt', index: 'crt_dt', width: 80 },
 			{ label: '最后修改人', name: 'lastChgUsr', index: 'last_chg_usr', width: 80 }, 			
