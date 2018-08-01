@@ -63,7 +63,17 @@ public class InvoiceInfoController {
     @RequestMapping("/save")
     @RequiresPermissions("invoice:invoiceinfo:save")
     public R save(@RequestBody InvoiceInfoEntity invoiceInfo){
-        invoiceInfoService.insert(invoiceInfo);
+        //invoiceInfoService.insert(invoiceInfo);
+        if (invoiceInfo == null || invoiceInfo.getQrCode() == null || "".equals(invoiceInfo.getQrCode())){
+            return R.error("输入的QrCode为空,请检查!");
+        }
+        //本地解析扫描出的字符串
+        R analyResult = invoiceInfoService.analyScanStr(invoiceInfo.getQrCode());
+        //本地校验成功后,调取接口进行发票核验
+        if ("500".equals(analyResult.get("code"))){
+            return analyResult;
+        }
+        R validateResult = invoiceInfoService.validateInvoice(invoiceInfo.getQrCode());
 
         return R.ok();
     }

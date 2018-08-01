@@ -3,7 +3,7 @@
 
 <mapper namespace="io.renren.modules.invoice.dao.InvoiceInfoDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.invoice.entity.InvoiceInfoEntity" id="invoiceInfoMap">
         <result property="id" column="id"/>
         <result property="invoiceCode" column="invoice_code"/>
@@ -13,6 +13,7 @@
         <result property="invoiceAmount" column="invoice_amount"/>
         <result property="token" column="token"/>
         <result property="state" column="state"/>
+        <result property="qrCode" column="qr_code"/>
         <result property="crtUsr" column="crt_usr"/>
         <result property="crtDt" column="crt_dt"/>
         <result property="lastChgUsr" column="last_chg_usr"/>

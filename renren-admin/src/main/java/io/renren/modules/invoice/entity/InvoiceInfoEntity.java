@@ -8,18 +8,18 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 
- * 
+ *
+ *
  * @author chenshun
  * @email kjustsun@gmail.com
- * @date 2018-07-31 17:01:04
+ * @date 2018-08-01 14:23:35
  */
 @TableName("invoice_info")
 public class InvoiceInfoEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 *
 	 */
 	@TableId
 	private Integer id;
@@ -51,6 +51,10 @@ public class InvoiceInfoEntity implements Serializable {
 	 * 状态(0:删除 1:正常)
 	 */
 	private String state;
+	/**
+	 * 发票二维码字符串
+	 */
+	private String qrCode;
 	/**
 	 * 创建人
 	 */
@@ -163,6 +167,18 @@ public class InvoiceInfoEntity implements Serializable {
 	 */
 	public String getState() {
 		return state;
+	}
+	/**
+	 * 设置：发票二维码字符串
+	 */
+	public void setQrCode(String qrCode) {
+		this.qrCode = qrCode;
+	}
+	/**
+	 * 获取：发票二维码字符串
+	 */
+	public String getQrCode() {
+		return qrCode;
 	}
 	/**
 	 * 设置：创建人
