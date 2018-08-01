@@ -5,6 +5,8 @@ import java.util.Map;
 
 import io.renren.common.validator.ValidatorUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,8 +19,6 @@ import io.renren.modules.invoice.service.InvoiceInfoService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 
-
-
 /**
  * 
  *
@@ -29,8 +29,11 @@ import io.renren.common.utils.R;
 @RestController
 @RequestMapping("invoice/invoiceinfo")
 public class InvoiceInfoController {
+
     @Autowired
     private InvoiceInfoService invoiceInfoService;
+
+    private static final Logger logger = LoggerFactory.getLogger(InvoiceInfoController.class);
 
     /**
      * 列表
@@ -42,7 +45,6 @@ public class InvoiceInfoController {
 
         return R.ok().put("page", page);
     }
-
 
     /**
      * 信息
@@ -85,6 +87,23 @@ public class InvoiceInfoController {
     @RequiresPermissions("invoice:invoiceinfo:delete")
     public R delete(@RequestBody Integer[] ids){
         invoiceInfoService.deleteBatchIds(Arrays.asList(ids));
+
+        return R.ok();
+    }
+
+    /**
+     * 校验发票真伪
+     */
+    @RequestMapping("/validate")
+    @RequiresPermissions("invoice:invoiceinfo:validate")
+    public R validateInvoice(@RequestParam String scanStr){
+        //本地解析扫描出的字符串
+        R analyResult = invoiceInfoService.analyScanStr(scanStr);
+        //本地校验成功后,调取接口进行发票核验
+        if (!"500".equals(analyResult.get("code"))){
+            return analyResult;
+        }
+        //R validateResult = invoiceInfoService.validateInvoice(scanStr);
 
         return R.ok();
     }

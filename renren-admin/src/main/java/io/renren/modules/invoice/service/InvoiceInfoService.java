@@ -2,6 +2,7 @@ package io.renren.modules.invoice.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.R;
 import io.renren.modules.invoice.entity.InvoiceInfoEntity;
 
 import java.util.Map;
@@ -16,5 +17,9 @@ import java.util.Map;
 public interface InvoiceInfoService extends IService<InvoiceInfoEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    R analyScanStr(String scanStr);
+
+    R validateInvoice(String scanStr);
 }
 
