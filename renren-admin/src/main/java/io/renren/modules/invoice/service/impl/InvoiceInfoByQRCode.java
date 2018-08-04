@@ -40,6 +40,7 @@ public class InvoiceInfoByQRCode {
      * @throws IOException
      */
     public static R getVatInfoByParam(String scanStr) throws JsonGenerationException, JsonMappingException, IOException {
+        scanStr = scanStr.replace("，", ",");
         Map<String, Object> parameter = new HashMap();
         //获取发票查验企业接口请求参数报文
         parameter.put("scanStr", scanStr);
