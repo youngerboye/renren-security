@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+		<#include "/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+			<#if shiro.hasPermission("invoice:invoinfo:save")>
+            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			</#if>
+			<#if shiro.hasPermission("invoice:invoinfo:update")>
+            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			</#if>
+			<#if shiro.hasPermission("invoice:invoinfo:delete")>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			</#if>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+														                    <div class="form-group">
+                        <div class="col-sm-2 control-label">发票序号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoInfo.invoiceSeq" placeholder="发票序号"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">发票代码</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoInfo.invoiceCode" placeholder="发票代码"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">发票号码</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoInfo.invoiceNumber" placeholder="发票号码"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">开票时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoInfo.billTime" placeholder="开票时间"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">校验码</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoInfo.checkCode" placeholder="校验码"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">开具金额</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoInfo.invoiceAmount" placeholder="开具金额"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">是否校验通过</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoInfo.isChecked" placeholder="是否校验通过"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">备用字段1</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoInfo.ext1" placeholder="备用字段1"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">备用字段2</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoInfo.ext2" placeholder="备用字段2"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">备用字段3</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoInfo.ext3" placeholder="备用字段3"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">备用字段4</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoInfo.ext4" placeholder="备用字段4"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">备用字段5</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoInfo.ext5" placeholder="备用字段5"/>
+                        </div>
+                    </div>
+							            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="${request.contextPath}/statics/js/modules/invoice/invoinfo.js?_${.now?long}"></script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+		<#include "/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+			<#if shiro.hasPermission("invoice:invocheck:save")>
+            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			</#if>
+			<#if shiro.hasPermission("invoice:invocheck:update")>
+            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			</#if>
+			<#if shiro.hasPermission("invoice:invocheck:delete")>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			</#if>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+														                    <div class="form-group">
+                        <div class="col-sm-2 control-label">发票序号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.invoiceSeq" placeholder="发票序号"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">二维码字符串</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.scanStr" placeholder="二维码字符串"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">授权码</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.token" placeholder="授权码"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">00：成功，99：失败</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.rtnCode" placeholder="00：成功，99：失败"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">查询发票状态码，1000：查询到票的信息，2001：没有查询到票的信息</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.resultCode" placeholder="查询发票状态码，1000：查询到票的信息，2001：没有查询到票的信息"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">失败状态码，201，210，220等</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.invoicefalseCode" placeholder="失败状态码，201，210，220等"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">结果提示信息</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.resultMsg" placeholder="结果提示信息"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">发票名称</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.invoiceName" placeholder="发票名称"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">数据查询结果</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.invoiceResult" placeholder="数据查询结果"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">查询是否免费，Y：是，N：否</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.isFree" placeholder="查询是否免费，Y：是，N：否"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">创建人</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.crtUsr" placeholder="创建人"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">创建日期</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.crtDt" placeholder="创建日期"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">最后修改人</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.lastChgUsr" placeholder="最后修改人"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">最后修改时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.lastChgDt" placeholder="最后修改时间"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">备用字段1</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.ext1" placeholder="备用字段1"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">备用字段2</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.ext2" placeholder="备用字段2"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">备用字段3</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.ext3" placeholder="备用字段3"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">备用字段4</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.ext4" placeholder="备用字段4"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">备用字段5</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="invoCheck.ext5" placeholder="备用字段5"/>
+                        </div>
+                    </div>
+							            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="${request.contextPath}/statics/js/modules/invoice/invocheck.js?_${.now?long}"></script>
+</body>
+</html>

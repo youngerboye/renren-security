@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.invoice.dao.InvoCheckDetlDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.invoice.entity.InvoCheckDetlEntity" id="invoCheckDetlMap">
+        <result property="id" column="id"/>
+        <result property="invoiceSeq" column="invoice_seq"/>
+        <result property="invoiceDataCode" column="invoice_data_code"/>
+        <result property="invoiceNumber" column="invoice_number"/>
+        <result property="invoiceTypeName" column="invoice_type_name"/>
+        <result property="invoiceTypeCode" column="invoice_type_code"/>
+        <result property="billingTime" column="billing_time"/>
+        <result property="checkDate" column="check_date"/>
+        <result property="checkNum" column="check_num"/>
+        <result property="checkCode" column="check_code"/>
+        <result property="taxDiskCode" column="tax_disk_code"/>
+        <result property="purchaserName" column="purchaser_name"/>
+        <result property="taxpayerNumber" column="taxpayer_number"/>
+        <result property="taxpayerBankAccount" column="taxpayer_bank_account"/>
+        <result property="taxpayerAddressOrId" column="taxpayer_address_or_id"/>
+        <result property="salesName" column="sales_name"/>
+        <result property="salesTaxpayerNum" column="sales_taxpayer_num"/>
+        <result property="salesTaxpayerBankAccount" column="sales_taxpayer_bank_account"/>
+        <result property="salesTaxpayerAddress" column="sales_taxpayer_address"/>
+        <result property="totalTaxSum" column="total_tax_sum"/>
+        <result property="totalTaxNum" column="total_tax_num"/>
+        <result property="totalAmount" column="total_amount"/>
+        <result property="invoiceRemarks" column="invoice_remarks"/>
+        <result property="isBillMark" column="is_bill_mark"/>
+        <result property="voidMark" column="void_mark"/>
+        <result property="goodsClerk" column="goods_clerk"/>
+        <result property="tollSign" column="toll_sign"/>
+        <result property="tollSignName" column="toll_sign_name"/>
+        <result property="invoiceDetailData" column="invoice_detail_data"/>
+        <result property="crtUsr" column="crt_usr"/>
+        <result property="crtDt" column="crt_dt"/>
+        <result property="lastChgUsr" column="last_chg_usr"/>
+        <result property="lastChgDt" column="last_chg_dt"/>
+        <result property="ext1" column="ext1"/>
+        <result property="ext2" column="ext2"/>
+        <result property="ext3" column="ext3"/>
+        <result property="ext4" column="ext4"/>
+        <result property="ext5" column="ext5"/>
+    </resultMap>
+
+
+</mapper>
