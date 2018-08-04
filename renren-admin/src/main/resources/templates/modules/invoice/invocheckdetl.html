@@ -8,7 +8,10 @@
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
-			<#if shiro.hasPermission("invoice:invocheckdetl:save")>
+            <#if shiro.hasPermission("invoice:invocheckdetl:scan")>
+            <a class="btn btn-primary" @click="scan"><i class="fa fa-search"></i>&nbsp;扫描</a>
+            </#if>
+            <#if shiro.hasPermission("invoice:invocheckdetl:save")>
             <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
 			</#if>
 			<#if shiro.hasPermission("invoice:invocheckdetl:update")>
@@ -251,6 +254,20 @@
                 <div class="col-sm-2 control-label"></div>
                 <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
                 &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+
+    <!-- 发票扫描 -->
+    <div id="scanLayer" style="display: none;">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">扫描枪录入</div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" v-model="scanStr" placeholder="光标停留此处"/>
+                    </div>
+                </div>
             </div>
         </form>
     </div>

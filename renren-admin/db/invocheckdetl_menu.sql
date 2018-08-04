@@ -1,6 +1,6 @@
 -- 菜单SQL
 INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
-    VALUES ('1', '', 'modules/invoice/invocheckdetl.html', NULL, '1', 'fa fa-file-code-o', '6');
+    VALUES ('41', '', 'modules/invoice/invocheckdetl.html', NULL, '1', 'fa fa-file-code-o', '6');
 
 -- 按钮父菜单ID
 set @parentId = @@identity;
@@ -13,4 +13,4 @@ INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `or
 INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
     SELECT @parentId, '修改', null, 'invoice:invocheckdetl:update', '2', null, '6';
 INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
-    SELECT @parentId, '删除', null, 'invoice:invocheckdetl:delete', '2', null, '6';
+    SELECT @parentId, '删除', null, 'invoice:invocheckdetl:scan', '2', null, '6';

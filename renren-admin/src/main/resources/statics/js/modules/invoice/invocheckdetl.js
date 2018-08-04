@@ -74,12 +74,43 @@ var vm = new Vue({
 	data:{
 		showList: true,
 		title: null,
+        scanStr:'',
 		invoCheckDetl: {}
 	},
 	methods: {
 		query: function () {
 			vm.reload();
 		},
+		scan: function () {
+            layer.open({
+                type: 1,
+                skin: 'layui-layer-molv',
+                title: "发票录入",
+                area: ['700px', '200px'],
+                shadeClose: false,
+                content: jQuery("#scanLayer"),
+                btn: ['确认','取消'],
+                btn1: function (index) {
+                    var data = "scanStr="+vm.scanStr;
+                    $.ajax({
+                        type: "POST",
+                        url: "invoice/invoiceinfo/save",
+                        data: data,
+                        dataType: "json",
+                        success: function(result){
+                            if(result.code == 0){
+                                layer.close(index);
+                                layer.alert('修改成功', function(index){
+                                    location.reload();
+                                });
+                            }else{
+                                layer.alert(result.msg);
+                            }
+                        }
+                    });
+                }
+            });
+        },
 		add: function(){
 			vm.showList = false;
 			vm.title = "新增";
