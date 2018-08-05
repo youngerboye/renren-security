@@ -53,8 +53,8 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
                 new Query<InvoCheckDetlEntity>(params).getPage(),
                 new EntityWrapper<InvoCheckDetlEntity>()
                         .like(StringUtils.isNotBlank(name), "invoice_number", name)
-                        .or().like(StringUtils.isNotBlank(name), "invoice_seq", name)
-                        .or().like(StringUtils.isNotBlank(name), "billing_time", name)
+                        .or().like(StringUtils.isNotBlank(name), "crt_usr", name)
+                        .or().like(StringUtils.isNotBlank(name), "crt_dt", name)
         );
 
         return new PageUtils(page);
