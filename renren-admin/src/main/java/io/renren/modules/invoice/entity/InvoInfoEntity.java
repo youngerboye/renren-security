@@ -51,6 +51,22 @@ public class InvoInfoEntity implements Serializable {
 	 */
 	private String isChecked;
 	/**
+	 * 创建人
+	 */
+	private String crtUsr;
+	/**
+	 * 创建日期
+	 */
+	private String crtDt;
+	/**
+	 * 最后修改人
+	 */
+	private String lastChgUsr;
+	/**
+	 * 最后修改时间
+	 */
+	private String lastChgDt;
+	/**
 	 * 备用字段1
 	 */
 	private String ext1;
@@ -166,6 +182,54 @@ public class InvoInfoEntity implements Serializable {
 	 */
 	public String getIsChecked() {
 		return isChecked;
+	}
+	/**
+	 * 设置：创建人
+	 */
+	public void setCrtUsr(String crtUsr) {
+		this.crtUsr = crtUsr;
+	}
+	/**
+	 * 获取：创建人
+	 */
+	public String getCrtUsr() {
+		return crtUsr;
+	}
+	/**
+	 * 设置：创建日期
+	 */
+	public void setCrtDt(String crtDt) {
+		this.crtDt = crtDt;
+	}
+	/**
+	 * 获取：创建日期
+	 */
+	public String getCrtDt() {
+		return crtDt;
+	}
+	/**
+	 * 设置：最后修改人
+	 */
+	public void setLastChgUsr(String lastChgUsr) {
+		this.lastChgUsr = lastChgUsr;
+	}
+	/**
+	 * 获取：最后修改人
+	 */
+	public String getLastChgUsr() {
+		return lastChgUsr;
+	}
+	/**
+	 * 设置：最后修改时间
+	 */
+	public void setLastChgDt(String lastChgDt) {
+		this.lastChgDt = lastChgDt;
+	}
+	/**
+	 * 获取：最后修改时间
+	 */
+	public String getLastChgDt() {
+		return lastChgDt;
 	}
 	/**
 	 * 设置：备用字段1

@@ -27,4 +27,19 @@ public class ConfigConstant {
      * 云存储配置KEY
      */
     public final static String CLOUD_STORAGE_CONFIG_KEY = "CLOUD_STORAGE_CONFIG_KEY";
+
+    /**
+     * 接口地址
+     */
+    public final static String OPEN_URL = "https://open.leshui365.com";
+
+    /**
+     *
+     */
+    public final static String APP_KEY = "APP_KEY";
+
+    /**
+     *
+     */
+    public final static String APP_SECRET = "APP_SECRET";
 }

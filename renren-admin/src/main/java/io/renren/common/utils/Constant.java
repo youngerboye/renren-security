@@ -109,4 +109,9 @@ public class Constant {
         }
     }
 
+    /** 是 */
+    public static final String YES = "y";
+    /** 否 */
+    public static final String NO = "n";
+
 }

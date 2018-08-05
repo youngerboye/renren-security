@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Map;
 
 import io.renren.common.validator.ValidatorUtils;
+import io.renren.modules.invoice.service.InvoInfoService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +35,7 @@ public class InvoCheckDetlController {
     private InvoCheckDetlService invoCheckDetlService;
 
     /**
-     * 列表
+     * 列表(根据查询内容进行查询)
      */
     @RequestMapping("/list")
     @RequiresPermissions("invoice:invocheckdetl:list")
@@ -87,6 +89,19 @@ public class InvoCheckDetlController {
         invoCheckDetlService.deleteBatchIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    /**
+     * 校验发票真伪并落库
+     */
+    @RequestMapping("/scan")
+    @RequiresPermissions("invoice:invocheckdetl:scan") //权限管理
+    public R validateInvoice(@RequestParam String scanStr) {
+        if (StringUtils.isBlank(scanStr)) {
+            return R.error("请扫描后,再进行查验!");
+        }
+
+        return invoCheckDetlService.validateInvoice(scanStr);
     }
 
 }

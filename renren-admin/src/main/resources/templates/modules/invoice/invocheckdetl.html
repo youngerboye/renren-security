@@ -8,15 +8,20 @@
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
+            <div class="form-group col-sm-2">
+                <input type="text" class="form-control" v-model="q.name" @keyup.enter="query" placeholder="搜索内容">
+            </div>
+            <a class="btn btn-default" @click="query">查询</a>
             <#if shiro.hasPermission("invoice:invocheckdetl:scan")>
-            <a class="btn btn-primary" @click="scan"><i class="fa fa-search"></i>&nbsp;扫描</a>
+            <a class="btn btn-primary" @click="scan"><i class="fa fa-sign-in"></i>&nbsp;扫描录入</a>
             </#if>
-            <#if shiro.hasPermission("invoice:invocheckdetl:save")>
-            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
-			</#if>
-			<#if shiro.hasPermission("invoice:invocheckdetl:update")>
-            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-			</#if>
+            <!--<#if shiro.hasPermission("invoice:invocheckdetl:save")>-->
+            <!--<a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>-->
+			<!--</#if>-->
+			<!--<#if shiro.hasPermission("invoice:invocheckdetl:update")>-->
+            <!--<a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>-->
+			<!--</#if>-->
+            <a class="btn btn-primary" @click="view"><i class="fa fa-pencil-square-o"></i>&nbsp;查看详情</a>
 			<#if shiro.hasPermission("invoice:invocheckdetl:delete")>
             <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
 			</#if>
@@ -31,196 +36,196 @@
 														                    <div class="form-group">
                         <div class="col-sm-2 control-label">发票序号</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.invoiceSeq" placeholder="发票序号"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.invoiceSeq" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">发票代码</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.invoiceDataCode" placeholder="发票代码"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.invoiceDataCode" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">发票号码</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.invoiceNumber" placeholder="发票号码"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.invoiceNumber" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">发票类型名称</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.invoiceTypeName" placeholder="发票类型名称"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.invoiceTypeName" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
-                        <div class="col-sm-2 control-label">发票类型，01：增值税专票，03：机动车销售统一发票，04：增值税普通发票，10：电子发票，11：卷式普通发票，14:电子普通[通行费]发票，15：二手车统一发票</div>
+                        <div class="col-sm-2 control-label">发票类型</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.invoiceTypeCode" placeholder="发票类型，01：增值税专票，03：机动车销售统一发票，04：增值税普通发票，10：电子发票，11：卷式普通发票，14:电子普通[通行费]发票，15：二手车统一发票"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.invoiceTypeCode" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">开票时间</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.billingTime" placeholder="开票时间"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.billingTime" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">查询日期</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.checkDate" placeholder="查询日期"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.checkDate" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">查验次数</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.checkNum" placeholder="查验次数"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.checkNum" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">校验码</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.checkCode" placeholder="校验码"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.checkCode" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">机器码</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.taxDiskCode" placeholder="机器码"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.taxDiskCode" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">购方名称</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.purchaserName" placeholder="购方名称"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.purchaserName" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">购方纳税人识别号</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.taxpayerNumber" placeholder="购方纳税人识别号"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.taxpayerNumber" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">购方银行账号</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.taxpayerBankAccount" placeholder="购方银行账号"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.taxpayerBankAccount" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">购方地址，电话</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.taxpayerAddressOrId" placeholder="购方地址，电话"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.taxpayerAddressOrId" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">销方名称</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.salesName" placeholder="销方名称"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.salesName" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">销方纳税人识别号</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.salesTaxpayerNum" placeholder="销方纳税人识别号"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.salesTaxpayerNum" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">销方银行，账号</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.salesTaxpayerBankAccount" placeholder="销方银行，账号"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.salesTaxpayerBankAccount" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">销方地址，电话</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.salesTaxpayerAddress" placeholder="销方地址，电话"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.salesTaxpayerAddress" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">价税合计</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.totalTaxSum" placeholder="价税合计"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.totalTaxSum" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">税额</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.totalTaxNum" placeholder="税额"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.totalTaxNum" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">不含税价（金额）</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.totalAmount" placeholder="不含税价（金额）"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.totalAmount" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">备注</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.invoiceRemarks" placeholder="备注"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.invoiceRemarks" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
-                        <div class="col-sm-2 control-label">是否为清单票，Y：是，N：否</div>
+                        <div class="col-sm-2 control-label">是否为清单票</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.isBillMark" placeholder="是否为清单票，Y：是，N：否"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.isBillMark" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
-                        <div class="col-sm-2 control-label">作废标志，0：正常，1：作废</div>
+                        <div class="col-sm-2 control-label">作废标志</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.voidMark" placeholder="作废标志，0：正常，1：作废"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.voidMark" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
-                        <div class="col-sm-2 control-label">收货员（卷式发票新增字段，其他票可以不用）</div>
+                        <div class="col-sm-2 control-label">收货员</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.goodsClerk" placeholder="收货员（卷式发票新增字段，其他票可以不用）"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.goodsClerk" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
-                        <div class="col-sm-2 control-label">收费标志字段（06：可抵扣通行费 07：不可抵扣通行费，08：成品油）</div>
+                        <div class="col-sm-2 control-label">收费标志字段</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.tollSign" placeholder="收费标志字段（06：可抵扣通行费 07：不可抵扣通行费，08：成品油）"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.tollSign" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
-                        <div class="col-sm-2 control-label">收费标志名称（没有为空）</div>
+                        <div class="col-sm-2 control-label">收费标志名称</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.tollSignName" placeholder="收费标志名称（没有为空）"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.tollSignName" placeholder=""/>
                         </div>
                     </div>
-											                    <div class="form-group">
+<!--											                    <div class="form-group">
                         <div class="col-sm-2 control-label">发票详情（清单票首行号为0，折扣清单票行号从-2开始，正常行号都是从1开始</div>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" v-model="invoCheckDetl.invoiceDetailData" placeholder="发票详情（清单票首行号为0，折扣清单票行号从-2开始，正常行号都是从1开始"/>
                         </div>
-                    </div>
+                    </div>-->
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">创建人</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.crtUsr" placeholder="创建人"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.crtUsr" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">创建日期</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.crtDt" placeholder="创建日期"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.crtDt" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">最后修改人</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.lastChgUsr" placeholder="最后修改人"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.lastChgUsr" placeholder=""/>
                         </div>
                     </div>
 											                    <div class="form-group">
                         <div class="col-sm-2 control-label">最后修改日期</div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="invoCheckDetl.lastChgDt" placeholder="最后修改日期"/>
+                            <input type="text" class="form-control" readonly="true" v-model="invoCheckDetl.lastChgDt" placeholder=""/>
                         </div>
                     </div>
-											                    <div class="form-group">
+<!--											                    <div class="form-group">
                         <div class="col-sm-2 control-label">备用字段1</div>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" v-model="invoCheckDetl.ext1" placeholder="备用字段1"/>
@@ -249,10 +254,10 @@
                         <div class="col-sm-10">
                             <input type="text" class="form-control" v-model="invoCheckDetl.ext5" placeholder="备用字段5"/>
                         </div>
-                    </div>
+                    </div>-->
 							            <div class="form-group">
                 <div class="col-sm-2 control-label"></div>
-                <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+                <!--<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>-->
                 &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
             </div>
         </form>
@@ -263,9 +268,9 @@
         <form class="form-horizontal">
             <div class="form-group">
                 <div class="form-group">
-                    <div class="col-sm-2 control-label">扫描枪录入</div>
+                    <div class="col-sm-2 control-label">扫描枪录入:</div>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="scanStr" placeholder="光标停留此处"/>
+                        <input type="text" class="form-control" v-model="scanStr" placeholder="光标停留此处后,再进行扫描"/>
                     </div>
                 </div>
             </div>

@@ -14,3 +14,7 @@ INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `or
     SELECT @parentId, '修改', null, 'invoice:invoinfo:update', '2', null, '6';
 INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
     SELECT @parentId, '删除', null, 'invoice:invoinfo:delete', '2', null, '6';
+
+
+INSERT INTO `invoice`.`sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('42', '41', '发票信息', 'modules/invoice/invoinfo.html', NULL, '1', 'fa fa-file-code-o', '6');
+INSERT INTO `invoice`.`sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('47', '41', '发票检查', 'modules/invoice/invocheck.html', NULL, '1', 'fa fa-file-code-o', '6');
