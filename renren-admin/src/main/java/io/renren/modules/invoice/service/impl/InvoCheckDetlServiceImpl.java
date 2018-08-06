@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -90,6 +91,49 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
             return R.error("校验发票时异常,请联系管理员");
         }
         return result;
+    }
+
+    /**
+     * 导出Excel表格
+     * @param params
+     * @return
+     */
+    public R exportExcel(Map<String, Object> params){
+        String fileName = "反馈明细"+System.currentTimeMillis()+".xls"; //文件名
+        String sheetName = "反馈明细";//sheet名
+        String []title = new String[]{"Id","导航图标","反馈类型","内容","联系方式","应用Id","应用版本","反馈时间"};//标题
+
+        String name = (String) params.get("name");
+
+        Page<InvoCheckDetlEntity> page = this.selectPage(
+                new Query<InvoCheckDetlEntity>(params).getPage(),
+                new EntityWrapper<InvoCheckDetlEntity>()
+                        .like(StringUtils.isNotBlank(name), "invoice_number", name)
+                        .or().like(StringUtils.isNotBlank(name), "crt_usr", name)
+                        .or().like(StringUtils.isNotBlank(name), "crt_dt", name)
+        );
+        List<InvoCheckDetlEntity> list = page.getRecords();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String [][]values = new String[list.size()][];
+        for(int i=0;i<list.size();i++){
+            values[i] = new String[title.length];
+            //将对象内容转换成string
+            Feedback obj = list.get(i);
+            values[i][0] = obj.getId()+"";
+            values[i][1] = obj.getFiles();
+            values[i][2] = obj.getFbType();
+            values[i][3] = obj.getContent();
+            values[i][4] = obj.getContactInfo();
+            values[i][5] = obj.getAppId();
+            values[i][6] = obj.getVersionName();
+            values[i][7] = sdf.format(obj.getCreateTime());
+
+        }
+
+
+
+        return null;
     }
 
     /**
@@ -476,5 +520,8 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
         }
         return token;
     }
+
+
+
 
 }

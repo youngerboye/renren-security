@@ -101,4 +101,14 @@ public class InvoCheckDetlController extends AbstractController {
         return invoCheckDetlService.validateInvoice(scanStr, user);
     }
 
+    /**
+     * 导出Excel表格
+     */
+    @RequestMapping("/exportExcel")
+    @RequiresPermissions("invoice:invocheckdetl:exportExcel") //权限管理
+    public R exportExcel(@RequestParam Map<String, Object> params) {
+
+        return invoCheckDetlService.exportExcel(params);
+    }
+
 }
