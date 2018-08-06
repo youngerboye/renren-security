@@ -6,6 +6,8 @@ import io.renren.common.utils.R;
 import io.renren.modules.invoice.entity.InvoCheckDetlEntity;
 import io.renren.modules.sys.entity.SysUserEntity;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Map;
 
 /**
@@ -21,7 +23,7 @@ public interface InvoCheckDetlService extends IService<InvoCheckDetlEntity> {
     
     R validateInvoice(String scanStr, SysUserEntity user);
 
-    R exportExcel(Map<String, Object> params);
+    void exportExcel(OutputStream outputStream, Map<String, Object> params) throws IOException;
 
 }
 

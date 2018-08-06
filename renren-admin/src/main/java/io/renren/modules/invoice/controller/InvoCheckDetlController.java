@@ -12,6 +12,10 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -106,9 +110,19 @@ public class InvoCheckDetlController extends AbstractController {
      */
     @RequestMapping("/exportExcel")
     @RequiresPermissions("invoice:invocheckdetl:exportExcel") //权限管理
-    public R exportExcel(@RequestParam Map<String, Object> params) {
+    public R exportExcel(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, Object> params) throws IOException {
+        String fileName = "发票信息" + ".xls";
+        response.setHeader("Content-Disposition", "attachment;filename="+ fileName);
+        response.setContentType("application/octet-stream;charset=ISO8859-1");
 
-        return invoCheckDetlService.exportExcel(params);
+        OutputStream os = response.getOutputStream();
+        try {
+            invoCheckDetlService.exportExcel(os, params);
+        }catch (Exception e ){
+            e.printStackTrace();
+//            log.error("exportActivityGroupExcel error:{}", e);
+        }
+        return R.ok();
     }
 
 }
