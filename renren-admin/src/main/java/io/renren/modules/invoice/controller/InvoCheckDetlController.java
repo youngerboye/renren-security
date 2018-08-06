@@ -1,23 +1,19 @@
 package io.renren.modules.invoice.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
+import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.R;
 import io.renren.common.validator.ValidatorUtils;
-import io.renren.modules.invoice.service.InvoInfoService;
+import io.renren.modules.invoice.entity.InvoCheckDetlEntity;
+import io.renren.modules.invoice.service.InvoCheckDetlService;
+import io.renren.modules.sys.controller.AbstractController;
+import io.renren.modules.sys.entity.SysUserEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import io.renren.modules.invoice.entity.InvoCheckDetlEntity;
-import io.renren.modules.invoice.service.InvoCheckDetlService;
-import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.R;
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -30,7 +26,7 @@ import io.renren.common.utils.R;
  */
 @RestController
 @RequestMapping("invoice/invocheckdetl")
-public class InvoCheckDetlController {
+public class InvoCheckDetlController extends AbstractController {
     @Autowired
     private InvoCheckDetlService invoCheckDetlService;
 
@@ -100,8 +96,9 @@ public class InvoCheckDetlController {
         if (StringUtils.isBlank(scanStr)) {
             return R.error("请扫描后,再进行查验!");
         }
+        SysUserEntity user = getUser();
 
-        return invoCheckDetlService.validateInvoice(scanStr);
+        return invoCheckDetlService.validateInvoice(scanStr, user);
     }
 
 }

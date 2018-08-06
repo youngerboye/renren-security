@@ -11,6 +11,7 @@ import io.renren.modules.invoice.entity.InvoInfoEntity;
 import io.renren.modules.invoice.service.InvoCheckDetlService;
 import io.renren.modules.invoice.service.InvoCheckService;
 import io.renren.modules.invoice.service.InvoInfoService;
+import io.renren.modules.sys.entity.SysUserEntity;
 import io.renren.modules.sys.service.SysConfigService;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonGenerationException;
@@ -66,7 +67,7 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
      * @param scanStr
      * @return
      */
-    public R validateInvoice(String scanStr) {
+    public R validateInvoice(String scanStr, SysUserEntity user) {
         R result = R.ok();
         try {
             //1.本地解析扫描出的字符串
@@ -82,7 +83,7 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
             }
 
             //3.本地校验成功后,调取接口进行发票核验
-            result = this.getVatInfoByParam(scanStr);
+            result = this.getVatInfoByParam(scanStr, user);
 
         } catch (Exception e) {
             logger.error(e.getLocalizedMessage());
@@ -168,11 +169,12 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
      *                my01:"01,10,033001800111,25672225,76.72,20180610,82076771121721427121,CB32,"
      *                my02:"01,10,031001700111,91076602,187.18,20170710,61052145051968576568,3977"
      *                01,10,033001800111,25672225,76.72,20180610,82076771121721427121,CB32,
+     *                01,10,033001800111,25672225,76.72,20180610,82076771121721427121,CB, //天猫供应
      * @throws JsonGenerationException
      * @throws JsonMappingException
      * @throws IOException
      */
-    public R getVatInfoByParam(String scanStr) throws JsonGenerationException, JsonMappingException, IOException {
+    public R getVatInfoByParam(String scanStr, SysUserEntity user) throws JsonGenerationException, JsonMappingException, IOException {
         scanStr = scanStr.replace("，", ",");
         Map<String, Object> parameter = new HashMap();
         //获取发票查验企业接口请求参数报文
@@ -207,7 +209,7 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
                             String invoiceResult = (String) resultMap.get("invoiceResult");
                             logger.info("成功返回发票信息,信息为:{}", invoiceResult);
                             //处理返回成功发票
-                            this.getAndSaveInviceInfo(scanStr, token, resultMap, invoiceResult);
+                            this.getAndSaveInviceInfo(scanStr, token, resultMap, invoiceResult, user);
                             return R.ok("发票校验通过,详细信息可进行搜索查看!").put("invoiceResult", invoiceResult);
                         } else if ("2001".equals(resultCode)) {
                             //错误码
@@ -294,7 +296,7 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
      * @throws JsonMappingException
      * @throws IOException
      */
-    public void getAndSaveInviceInfo(String scanStr, String token, Map resultMap, String invoiceResult) throws JsonParseException, JsonMappingException, IOException {
+    public void getAndSaveInviceInfo(String scanStr, String token, Map resultMap, String invoiceResult, SysUserEntity user) throws JsonParseException, JsonMappingException, IOException {
         //落表三个对象
         InvoInfoEntity invoInfoEntity = new InvoInfoEntity();
         InvoCheckEntity invoCheckEntity = new InvoCheckEntity();
@@ -382,6 +384,7 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
             invoInfoEntity.setInvoiceAmount(totalTaxSum);//价税合计
             invoInfoEntity.setIsChecked(Constant.YES);
             invoInfoEntity.setCrtDt(time);
+            invoInfoEntity.setCrtUsr(user.getUsername());
             invoInfoEntity.setLastChgDt(time);
             invoInfoService.insert(invoInfoEntity);
 
@@ -395,6 +398,7 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
             invoCheckEntity.setInvoiceResult(invoiceResult);
             invoCheckEntity.setIsFree(isFree);
             invoCheckEntity.setCrtDt(time);
+            invoCheckEntity.setCrtUsr(user.getUsername());
             invoCheckEntity.setLastChgDt(time);
             invoCheckService.insert(invoCheckEntity);
 
@@ -427,6 +431,7 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
             invoCheckDetlEntity.setTollSignName(tollSignName);
             invoCheckDetlEntity.setInvoiceDetailData("");//TODO
             invoCheckDetlEntity.setCrtDt(time);
+            invoCheckDetlEntity.setCrtUsr(user.getUsername());
             invoCheckDetlEntity.setLastChgDt(time);
             invoCheckDetlService.insert(invoCheckDetlEntity);
 
