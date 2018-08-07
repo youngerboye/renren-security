@@ -104,10 +104,9 @@ public class InvoCheckDetlController extends AbstractController {
      */
     @RequestMapping("/exportExcel")
     @RequiresPermissions("invoice:invocheckdetl:exportExcel")
-    public R exportExcel(HttpServletResponse response, @RequestParam Map<String, Object> params) throws IOException {
+    public void exportExcel(HttpServletResponse response, @RequestParam Map<String, Object> params) throws IOException {
 
-
-        return invoCheckDetlService.exportExcel(response, params);
+        invoCheckDetlService.exportExcel(response, params);
     }
 
 }

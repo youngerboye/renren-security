@@ -102,7 +102,7 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
      * @param params
      * @return
      */
-    public R exportExcel(HttpServletResponse response, Map<String, Object> params) {
+    public void exportExcel(HttpServletResponse response, Map<String, Object> params) {
         String name = (String) params.get("name");
         Page<InvoCheckDetlEntity> page = this.selectPage(
                 new Query<InvoCheckDetlEntity>(params).getPage(),
@@ -144,7 +144,6 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
         } catch (Exception ex) {
 
         }
-        return R.ok();
     }
 
     /**

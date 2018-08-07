@@ -24,7 +24,7 @@ public interface InvoCheckDetlService extends IService<InvoCheckDetlEntity> {
     
     R validateInvoice(String scanStr, SysUserEntity user);
 
-    R exportExcel(HttpServletResponse response, Map<String, Object> params);
+    void exportExcel(HttpServletResponse response, Map<String, Object> params);
 
 }
 
