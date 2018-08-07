@@ -9,9 +9,11 @@
     <div v-show="showList">
         <div class="grid-btn">
             <div class="form-group col-sm-2">
-                <input type="text" class="form-control" v-model="q.name" @keyup.enter="query" placeholder="可根据发票号，录入人，录入时间进行查询">
+                <input type="text" class="form-control" v-model="q.name" @keyup.enter="query" placeholder="可根据发票号，录入人，录入时间进行模糊查询">
             </div>
+            <#if shiro.hasPermission("invoice:invocheckdetl:query")>
             <a class="btn btn-default" @click="query">查询</a>
+            </#if>
             <#if shiro.hasPermission("invoice:invocheckdetl:scan")>
             <a class="btn btn-primary" @click="scan"><i class="fa fa-sign-in"></i>&nbsp;扫描录入</a>
             </#if>
@@ -21,8 +23,13 @@
 			<!--<#if shiro.hasPermission("invoice:invocheckdetl:update")>-->
             <!--<a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>-->
 			<!--</#if>-->
+            <#if shiro.hasPermission("invoice:invocheckdetl:view")>
             <a class="btn btn-primary" @click="view"><i class="fa fa-pencil-square-o"></i>&nbsp;查看详情</a>
-			<#if shiro.hasPermission("invoice:invocheckdetl:delete")>
+            </#if>
+            <#if shiro.hasPermission("invoice:invocheckdetl:exportExcel")>
+            <a class="btn btn-primary" @click="exportExcel"><i class="fa fa-file-excel-o"></i>&nbsp;导出Excel</a>
+            </#if>
+            <#if shiro.hasPermission("invoice:invocheckdetl:delete")>
             <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
 			</#if>
         </div>

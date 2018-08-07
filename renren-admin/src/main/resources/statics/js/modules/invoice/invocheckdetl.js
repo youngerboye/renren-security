@@ -85,6 +85,25 @@ var vm = new Vue({
 		query: function () {
 			vm.reload();
 		},
+        exportExcel: function () {
+			var url = 'invoice/invocheckdetl/exportExcel';
+            $.ajax({
+                type: "POST",
+                url: baseURL + url,
+                contentType: "application/json",
+                data: vm.q.name,
+                success: function(r){
+                    if(r.code == 0){
+                        alert('导出成功', function(){
+                            vm.reload();
+                        });
+                    }else{
+                        alert(r.msg);
+                    }
+                }
+            });
+            vm.reload();
+        },
 		scan: function () {
             layer.open({
                 type: 1,

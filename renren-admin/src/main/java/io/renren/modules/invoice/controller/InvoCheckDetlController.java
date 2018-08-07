@@ -12,18 +12,13 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Map;
 
 
-
 /**
- * 
- *
  * @author sunzh
  * @email kjustsun@gmail.com
  * @date 2018-08-04 16:54:52
@@ -39,19 +34,18 @@ public class InvoCheckDetlController extends AbstractController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("invoice:invocheckdetl:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = invoCheckDetlService.queryPage(params);
 
         return R.ok().put("page", page);
     }
-
 
     /**
      * 信息
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("invoice:invocheckdetl:info")
-    public R info(@PathVariable("id") Integer id){
+    public R info(@PathVariable("id") Integer id) {
         InvoCheckDetlEntity invoCheckDetl = invoCheckDetlService.selectById(id);
 
         return R.ok().put("invoCheckDetl", invoCheckDetl);
@@ -62,7 +56,7 @@ public class InvoCheckDetlController extends AbstractController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("invoice:invocheckdetl:save")
-    public R save(@RequestBody InvoCheckDetlEntity invoCheckDetl){
+    public R save(@RequestBody InvoCheckDetlEntity invoCheckDetl) {
         invoCheckDetlService.insert(invoCheckDetl);
 
         return R.ok();
@@ -73,10 +67,10 @@ public class InvoCheckDetlController extends AbstractController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("invoice:invocheckdetl:update")
-    public R update(@RequestBody InvoCheckDetlEntity invoCheckDetl){
+    public R update(@RequestBody InvoCheckDetlEntity invoCheckDetl) {
         ValidatorUtils.validateEntity(invoCheckDetl);
         invoCheckDetlService.updateAllColumnById(invoCheckDetl);//全部更新
-        
+
         return R.ok();
     }
 
@@ -85,7 +79,7 @@ public class InvoCheckDetlController extends AbstractController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("invoice:invocheckdetl:delete")
-    public R delete(@RequestBody Integer[] ids){
+    public R delete(@RequestBody Integer[] ids) {
         invoCheckDetlService.deleteBatchIds(Arrays.asList(ids));
 
         return R.ok();
@@ -109,20 +103,11 @@ public class InvoCheckDetlController extends AbstractController {
      * 导出Excel表格
      */
     @RequestMapping("/exportExcel")
-    @RequiresPermissions("invoice:invocheckdetl:exportExcel") //权限管理
-    public R exportExcel(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, Object> params) throws IOException {
-        String fileName = "发票信息" + ".xls";
-        response.setHeader("Content-Disposition", "attachment;filename="+ fileName);
-        response.setContentType("application/octet-stream;charset=ISO8859-1");
+    @RequiresPermissions("invoice:invocheckdetl:exportExcel")
+    public R exportExcel(HttpServletResponse response, @RequestParam Map<String, Object> params) throws IOException {
 
-        OutputStream os = response.getOutputStream();
-        try {
-            invoCheckDetlService.exportExcel(os, params);
-        }catch (Exception e ){
-            e.printStackTrace();
-//            log.error("exportActivityGroupExcel error:{}", e);
-        }
-        return R.ok();
+
+        return invoCheckDetlService.exportExcel(response, params);
     }
 
 }

@@ -21,7 +21,7 @@
 		<commons-lang3.version>3.3.2</commons-lang3.version>
 		<commons-io.version>1.3.2</commons-io.version>
 		<commons-net.version>3.3</commons-net.version>
-		<apache.poi.version>3.6</apache.poi.version>
+		<apache.poi.version>3.9</apache.poi.version>
 	</properties>
 
 	<dependencies>

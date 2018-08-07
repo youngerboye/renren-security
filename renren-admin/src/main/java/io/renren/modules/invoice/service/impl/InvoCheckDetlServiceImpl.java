@@ -24,9 +24,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -97,16 +98,12 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
 
     /**
      * 导出Excel表格
+     *
      * @param params
      * @return
      */
-    public void exportExcel(OutputStream outputStream, Map<String, Object> params) throws IOException{
-        String fileName = "反馈明细"+System.currentTimeMillis()+".xls"; //文件名
-        String sheetName = "反馈明细";//sheet名
-        String []title = new String[]{"发票代码","发票号码","开票日期","录入日期","录入人"};//标题
-
+    public R exportExcel(HttpServletResponse response, Map<String, Object> params) {
         String name = (String) params.get("name");
-
         Page<InvoCheckDetlEntity> page = this.selectPage(
                 new Query<InvoCheckDetlEntity>(params).getPage(),
                 new EntityWrapper<InvoCheckDetlEntity>()
@@ -114,13 +111,59 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
                         .or().like(StringUtils.isNotBlank(name), "crt_usr", name)
                         .or().like(StringUtils.isNotBlank(name), "crt_dt", name)
         );
-        List<InvoCheckDetlEntity> list = page.getRecords();
 
-        HSSFWorkbook wb = InvoiceFileExportUtil.generateHSSFWorkbook(list);
+        try {
+            List<InvoCheckDetlEntity> list = page.getRecords();
+            String fileName = "反馈明细" + System.currentTimeMillis() + ".xls"; //文件名
+            String sheetName = "发票明细";//sheet名
+            String[] title = new String[]{"发票代码", "发票号码", "开票日期", "录入日期", "录入人"};//标题
 
-        wb.write(outputStream);
-        outputStream.flush();
+            String[][] values = new String[list.size()][];
+            for (int i = 0; i < list.size(); i++) {
+                values[i] = new String[title.length];
+                //将对象内容转换成string
+                InvoCheckDetlEntity obj = list.get(i);
+                values[i][0] = obj.getInvoiceDataCode();
+                values[i][1] = obj.getInvoiceNumber();
+                values[i][2] = obj.getBillingTime();
+                values[i][3] = obj.getCrtDt();
+                values[i][4] = obj.getCrtUsr();
+            }
 
+            HSSFWorkbook wb = ExcelUtil.getHSSFWorkbook(sheetName, title, values, null);
+            //将文件存到指定位置
+
+            this.setResponseHeader(response, fileName);
+            OutputStream os = response.getOutputStream();
+            wb.write(os);
+            os.flush();
+            os.close();
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+
+        }
+        return R.ok();
+    }
+
+    /**
+     * 设置response头
+     */
+    public void setResponseHeader(HttpServletResponse response, String fileName) throws UnsupportedEncodingException, Exception {
+        try {
+            fileName = new String(fileName.getBytes(), "ISO8859-1");
+            response.setContentType("application/octet-stream;charset=ISO8859-1");
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+            response.addHeader("Pargam", "no-cache");
+            response.addHeader("Cache-Control", "no-cache");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            throw e;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw ex;
+        }
     }
 
     /**
@@ -507,8 +550,6 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
         }
         return token;
     }
-
-
 
 
 }
