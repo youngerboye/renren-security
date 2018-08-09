@@ -24,7 +24,7 @@
             <!--<a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>-->
 			<!--</#if>-->
             <#if shiro.hasPermission("invoice:invocheckdetl:view")>
-            <a class="btn btn-primary" @click="view"><i class="fa fa-pencil-square-o"></i>&nbsp;查看详情</a>
+            <a class="btn btn-primary" @click="view"><i class="fa fa-eye"></i>&nbsp;查看详情</a>
             </#if>
             <#if shiro.hasPermission("invoice:invocheckdetl:exportExcel")>
             <a class="btn btn-primary" @click="exportExcel"><i class="fa fa-file-excel-o"></i>&nbsp;导出Excel</a>

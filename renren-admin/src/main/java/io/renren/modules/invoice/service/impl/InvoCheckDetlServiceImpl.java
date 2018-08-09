@@ -114,8 +114,8 @@ public class InvoCheckDetlServiceImpl extends ServiceImpl<InvoCheckDetlDao, Invo
 
         try {
             List<InvoCheckDetlEntity> list = page.getRecords();
-            String fileName = "反馈明细" + System.currentTimeMillis() + ".xls"; //文件名
-            String sheetName = "发票明细";//sheet名
+            String fileName = "发票信息" + System.currentTimeMillis() + ".xls"; //文件名
+            String sheetName = "发票";//sheet名
             String[] title = new String[]{"发票代码", "发票号码", "开票日期", "录入日期", "录入人"};//标题
 
             String[][] values = new String[list.size()][];
